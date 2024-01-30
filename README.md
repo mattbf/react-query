@@ -1,5 +1,5 @@
 # react-query
-notes on taking the ui.dev course for react-query.
+notes on taking the ui.dev [course](https://query.gg/) for react-query.
 
 
 # Why React Query?
