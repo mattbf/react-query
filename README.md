@@ -8,10 +8,10 @@ notes on taking the ui.dev course for react-query.
 Creating stateful UIs while fetching data from a server is repetitive and complex. React-query makes it simple.
 
 ### The history
-*before*
+*before*:
 The server would send data and the document.
 
-*after AJAX*
+*after AJAX*:
 A webpage could request more data without reloading the page and could happen automatically.
 
 ### Client state vs Server state
