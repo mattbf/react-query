@@ -1,3 +1,4 @@
+"use client";
 import { useQuery } from "@tanstack/react-query";
 
 const url = "https://ui.dev/api/courses/react-query/status";
@@ -7,11 +8,12 @@ const fetcher = () => {
 };
 
 const MyFirstQuery = () => {
-  const myQuery = useQuery(["status"], () => fetcher);
+  const myQuery = useQuery({ queryKey: ["status"], queryFn: () => fetcher() });
+  // const myQuery = useQuery(["status"], () => fetcher());
 
-  if (myQuery.status === "loading") return <p>Loading...</p>;
+  if (myQuery.isLoading) return <p>Loading...</p>;
   const data = myQuery.data;
-  return <div>{JSON.stringify(data)}</div>;
+  return <div>data: {JSON.stringify(data)}</div>;
 };
 
 export default MyFirstQuery;
