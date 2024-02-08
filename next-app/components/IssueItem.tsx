@@ -2,6 +2,7 @@ import Link from "next/link";
 import { GoIssueOpened, GoIssueClosed, GoComment } from "react-icons/go";
 import { relativeDate } from "@/helpers/relativeDate";
 import useUserData from "@/hooks/useUserData";
+import { Label } from "./Label";
 
 export function IssueItem({ title, number, assignee, commentCount, createdBy, createdDate, labels, status }) {
   const assigneeUser = useUserData(assignee);
@@ -13,9 +14,7 @@ export function IssueItem({ title, number, assignee, commentCount, createdBy, cr
         <span>
           <Link href={`/issue/${number}`}>{title}</Link>
           {labels.map((label) => (
-            <span key={label} className={`label red`}>
-              {label}
-            </span>
+            <Label key={label} label={label} />
           ))}
         </span>
         <small>
