@@ -1,16 +1,17 @@
 import { GoIssueOpened, GoIssueClosed, GoComment } from "react-icons/go";
-import { relativeDate } from "../helpers/relativeDate";
+import { relativeDate } from "@/helpers/relativeDate";
 import Link from "next/link";
+import useUserData from "@/hooks/useUserData";
 
-export function IssueItem({ title, number, assignee, commentCount, createdBy, createdDate, labels, status }) {
+export function IssueItem({ title, number, assignee, commentCount, createdBy, createdDate, labels, status }: any) {
+  const assigneeUser = useUserData(assignee);
+  const createdByUser = useUserData(createdBy);
   return (
     <li>
-      <div>
-        {status === "done" || status === "cancelled" ? <GoIssueClosed style={{ color: "red" }} /> : <GoIssueOpened style={{ color: "green" }} />}
-      </div>
+      <div>{status === "done" || status === "cancelled" ? <GoIssueClosed /> : <GoIssueOpened />}</div>
       <div className="issue-content">
         <span>
-          <Link to={`/issue/${number}`}>{title}</Link>
+          <Link href={`/issue/${number}`}>{title}</Link>
           {labels.map((label) => (
             <span key={label} className={`label red`}>
               {label}
@@ -18,7 +19,7 @@ export function IssueItem({ title, number, assignee, commentCount, createdBy, cr
           ))}
         </span>
         <small>
-          #{number} opened {relativeDate(createdDate)} by {createdBy}
+          #{number} opened {relativeDate(createdDate)} {`by ${createdByUser.data.name}`}
         </small>
       </div>
       {assignee ? <div>{assignee}</div> : null}

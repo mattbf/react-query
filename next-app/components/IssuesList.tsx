@@ -1,10 +1,10 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { IssueItem } from "./IssueItem";
+import { IssueItem } from "@/components/IssueItem";
 
 export default function IssuesList() {
   const issuesQuery = useQuery({ queryKey: ["issues"], queryFn: () => fetch("/api/issues").then((res) => res.json()) });
-  console.log(issuesQuery);
+  console.log(issuesQuery.data);
   return (
     <div>
       <h2>Issues List</h2>
@@ -12,7 +12,7 @@ export default function IssuesList() {
         <p>Loading....</p>
       ) : !!issuesQuery.data && issuesQuery.isSuccess ? (
         <ul>
-          {issuesQuery.data.map((item, i) => (
+          {issuesQuery.data.map((item) => (
             <IssueItem
               // key={item.id}
               // title={item.title}
