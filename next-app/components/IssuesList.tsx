@@ -4,7 +4,6 @@ import { IssueItem } from "@/components/IssueItem";
 
 export default function IssuesList() {
   const issuesQuery = useQuery({ queryKey: ["issues"], queryFn: () => fetch("/api/issues").then((res) => res.json()) });
-  console.log(issuesQuery);
   return (
     <div>
       <h2>Issues List</h2>
@@ -17,9 +16,9 @@ export default function IssuesList() {
               key={item.id}
               title={item.title}
               number={item.number}
-              assignee={item.assignee}
+              assignee={item?.assignee?.id}
               commentCount={item.commentCount}
-              createdBy={item.createdBy}
+              createdBy={item?.createdBy?.id}
               {...item}
             />
           ))}

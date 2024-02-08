@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 const useUserData = (userId: string) => {
-  const usersQueryData = useQuery({ queryKey: ["issues"], queryFn: () => fetch(`/api/users/${userId}`).then((res) => res.json()) });
+  const usersQueryData = useQuery({ queryKey: ["users"], queryFn: () => fetch(`/api/users/${userId}`).then((res) => res.json()) });
 
   return usersQueryData;
 };

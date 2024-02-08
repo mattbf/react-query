@@ -19,18 +19,19 @@ export function IssueItem({ title, number, assignee, commentCount, createdBy, cr
           ))} */}
         </span>
         <small>
-          #{number} opened {relativeDate(createdDate)} {`by ${createdByUser.data.name}`}
+          #{number} opened {relativeDate(createdDate)}
+          {`by ${createdByUser?.data?.name}`}
         </small>
       </div>
       {/* {assignee ? <div>{assignee}</div> : null} */}
-      {/* <span className="comment-count">
+      <span className="comment-count">
         {commentCount > 0 ? (
           <>
             <GoComment />
             {commentCount}
           </>
         ) : null}
-      </span> */}
+      </span>
     </li>
   );
 }
