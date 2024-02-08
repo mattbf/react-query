@@ -7,7 +7,7 @@ import "./index.css";
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
   useEffect(() => {
-    new Promise((res) => setTimeout(res, 100))
+    new Promise((res) => setTimeout(res, 50))
       .then(() =>
         worker.start({
           quiet: true,

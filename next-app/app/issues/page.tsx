@@ -2,9 +2,12 @@
 import IssuesList from "@/components/IssuesList";
 import LabelList from "@/components/LabelList";
 import { useState } from "react";
+import { StatusSelect } from "@/components/StatusSelect";
 
 const Issues = () => {
   const [labels, setLabels] = useState<string[]>([]);
+
+  const [status, setStatus] = useState<string>("");
 
   const handleSelectLabel = (label: string) => {
     setLabels((currentLabels) => {
@@ -21,11 +24,13 @@ const Issues = () => {
       <main>
         <section>
           <h1>Issues</h1>
-          <IssuesList labels={labels} />
+          <IssuesList labels={labels} status={status} />
         </section>
         <aside>
           <LabelList selected={labels} toggle={(label) => handleSelectLabel(label)} />
         </aside>
+        <h3>Status</h3>
+        <StatusSelect value={status} onChange={(e) => setStatus(e.target.value)} />
       </main>
     </div>
   );

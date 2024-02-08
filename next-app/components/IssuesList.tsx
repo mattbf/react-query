@@ -2,23 +2,24 @@
 import { useQuery } from "@tanstack/react-query";
 import { IssueItem } from "@/components/IssueItem";
 
-export default function IssuesList({ labels }: { labels: string[] }) {
-  const issuesQuery = useQuery({
-    queryKey: ["issues", { labels }],
+export default function IssuesList({ labels, status }: { labels: string[]; status: string }) {
+  const { data, isSuccess, isLoading } = useQuery({
+    queryKey: ["issues", { labels, status }],
     queryFn: () => {
       const labelsString = labels.map((l) => `labels[]=${l}`).join("&");
-      fetch(`/api/issues?${labelsString}`).then((res) => res.json());
+      const statusString = status ? `status=${status}` : "";
+      fetch(`/api/issues?${labelsString}${statusString}`).then((res) => res.json());
     },
   });
 
   return (
     <div>
       <h2>Issues List</h2>
-      {issuesQuery.isLoading ? (
+      {isLoading ? (
         <p>Loading....</p>
-      ) : !!issuesQuery.data && issuesQuery.isSuccess ? (
+      ) : !!data ? (
         <ul className="issues-list">
-          {issuesQuery?.data?.map((item) => (
+          {data?.map((item) => (
             <IssueItem
               key={item.id}
               title={item.title}
