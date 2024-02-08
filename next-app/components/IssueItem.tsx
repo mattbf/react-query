@@ -1,29 +1,34 @@
+import Link from "next/link";
 import { GoIssueOpened, GoIssueClosed, GoComment } from "react-icons/go";
 import { relativeDate } from "@/helpers/relativeDate";
-import Link from "next/link";
 import useUserData from "@/hooks/useUserData";
 
-export function IssueItem({ title, number, assignee, commentCount, createdBy, createdDate, labels, status }: any) {
+export function IssueItem({ title, number, assignee, commentCount, createdBy, createdDate, labels, status }) {
   const assigneeUser = useUserData(assignee);
   const createdByUser = useUserData(createdBy);
   return (
     <li>
-      {/* <div>{status === "done" || status === "cancelled" ? <GoIssueClosed /> : <GoIssueOpened />}</div> */}
+      <div>{status === "done" || status === "cancelled" ? <GoIssueClosed /> : <GoIssueOpened />}</div>
       <div className="issue-content">
         <span>
           <Link href={`/issue/${number}`}>{title}</Link>
-          {/* {labels.map((label) => (
+          {labels.map((label) => (
             <span key={label} className={`label red`}>
               {label}
             </span>
-          ))} */}
+          ))}
         </span>
         <small>
-          #{number} opened {relativeDate(createdDate)}
-          {`by ${createdByUser?.data?.name}`}
+          #{number} opened {relativeDate(createdDate)} {createdByUser.isSuccess ? `by ${createdByUser.data.name}` : ""}
         </small>
       </div>
-      {/* {assignee ? <div>{assignee}</div> : null} */}
+      {assignee ? (
+        <img
+          src={assigneeUser.isSuccess ? assigneeUser.data.profilePictureUrl : ""}
+          className="assigned-to"
+          alt={`Assigned to ${assigneeUser.isSuccess ? assigneeUser.data.name : "avatar"}`}
+        />
+      ) : null}
       <span className="comment-count">
         {commentCount > 0 ? (
           <>
