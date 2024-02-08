@@ -1,6 +1,6 @@
 import useLabelsData from "@/hooks/useLabelsData";
 
-export function Label(label: any) {
+export function Label({ label }) {
   const labelsData = useLabelsData();
   const labelObj = !!labelsData && labelsData?.data?.find((l) => l.id === label);
   if (!labelObj) return null;
