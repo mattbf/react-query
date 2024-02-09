@@ -119,6 +119,16 @@ queryClient.invalidateQueries, on the other hand, will only mark any fresh queri
 - _Placeholder data_ will NOT
 
 ```js
+const userQuery = useQuery(["user", userId], () => fetchUser(userId), {
+  placeholderData: {
+    id: "placeholder",
+    name: "Placeholder",
+    profilePictureUrl: "https://unsplash.it/200",
+  },
+});
+```
+
+```js
 const Navigation = () => {
   const queryClient = useQueryClient();
   return (

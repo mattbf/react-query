@@ -1,15 +1,22 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { IssueItem } from "@/components/IssueItem";
 import customFetch from "@/helpers/customFetch";
 
 export default function IssuesList({ labels, status }: { labels: string[]; status: string }) {
+  const queryClient = useQueryClient();
   const { data, isError, isLoading } = useQuery({
     queryKey: ["issues", { labels, status }],
-    queryFn: () => {
+    queryFn: async ({ signal }) => {
       const labelsString = labels.map((l) => `labels[]=${l}`).join("&");
       const statusString = status ? `status=${status}` : "";
-      return customFetch(`/api/issues?${labelsString}${statusString}`);
+      const results = customFetch(`/api/issues?${labelsString}${statusString}`, { signal });
+      //starts prefilling issues
+      // results.forEach((issue) => {
+      //   queryClient.setQueryData(["issues", issue.number.toString()], issue);
+      // });
+
+      return results;
     },
   });
 

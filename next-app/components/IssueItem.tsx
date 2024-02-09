@@ -3,12 +3,23 @@ import { GoIssueOpened, GoIssueClosed, GoComment } from "react-icons/go";
 import { relativeDate } from "@/helpers/relativeDate";
 import useUserData from "@/hooks/useUserData";
 import { Label } from "./Label";
+import { useQueryClient } from "@tanstack/react-query";
+import customFetch from "@/helpers/customFetch";
 
 export function IssueItem({ title, number, assignee, commentCount, createdBy, createdDate, labels, status }) {
+  const queryClient = useQueryClient();
   const assigneeUser = useUserData(assignee);
   const createdByUser = useUserData(createdBy);
   return (
-    <li>
+    <li
+      onMouseEnter={() => {
+        queryClient.prefetchQuery({ queryKey: ["issues", number.toString()], queryFn: () => customFetch(`/api/issues/${number}`) });
+        queryClient.prefetchQuery({
+          queryKey: ["issues", number.toString(), "comments"],
+          queryFn: () => customFetch(`/api/issues/${number}/comments`),
+        });
+      }}
+    >
       <div>{status === "done" || status === "cancelled" ? <GoIssueClosed /> : <GoIssueOpened />}</div>
       <div className="issue-content">
         <span>
