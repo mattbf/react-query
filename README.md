@@ -71,3 +71,7 @@ const issuesQuery = useQuery(
   }
 );
 ```
+
+## fetching vs isLoading
+
+Note that the fetching state is different from the loading state. A query only has the loading state the first time it loads and there's no data, while the fetching state is used by the query cache any time a query is refetched, including the first time.
