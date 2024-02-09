@@ -75,3 +75,40 @@ const issuesQuery = useQuery(
 ## fetching vs isLoading
 
 Note that the fetching state is different from the loading state. A query only has the loading state the first time it loads and there's no data, while the fetching state is used by the query cache any time a query is refetched, including the first time.
+
+## Default queries
+
+```js
+function queryGithub({ queryKey }) {
+  const BASE_URL = `https://api.github.com/`;
+
+  let queryParams = "";
+  if (typeof queryKey[queryKey.length - 1] === "object") {
+    const paramsObject = queryKey.pop();
+    queryParams = "?" + new URLSearchParams(paramsObject).toString();
+  }
+
+  const apiPath = queryKey.join("/");
+  const requestUrl = `${BASE_URL}${apiPath}${queryParams}`;
+
+  return fetch(requestUrl).then((res) => res.json());
+}
+```
+
+and then:
+
+```js
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      queryFn: queryGithub,
+    },
+  },
+});
+```
+
+## Refetching vs Invalidating
+
+queryClient.refetchQueries will force any queries that match the provided query key to refetch. This includes active, inactive, fresh, and stale queries. Yes, even those inactive queries that are just sitting in the cache not doing anything will be refetched.
+
+queryClient.invalidateQueries, on the other hand, will only mark any fresh queries as stale, which automatically triggers a refetch. However, since React Query will never automatically refetch inactive queries, queryClient.invalidateQueries results in fewer queries refetching, which means less network traffic.
