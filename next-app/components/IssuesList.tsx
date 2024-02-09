@@ -1,17 +1,28 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import { IssueItem } from "@/components/IssueItem";
+import customFetch from "@/helpers/customFetch";
 
-export default function IssuesList() {
-  const issuesQuery = useQuery({ queryKey: ["issues"], queryFn: () => fetch("/api/issues").then((res) => res.json()) });
+export default function IssuesList({ labels, status }: { labels: string[]; status: string }) {
+  const { data, isError, isLoading } = useQuery({
+    queryKey: ["issues", { labels, status }],
+    queryFn: () => {
+      const labelsString = labels.map((l) => `labels[]=${l}`).join("&");
+      const statusString = status ? `status=${status}` : "";
+      return customFetch(`/api/issues?${labelsString}${statusString}`);
+    },
+  });
+
   return (
     <div>
       <h2>Issues List</h2>
-      {issuesQuery.isLoading ? (
+      {isLoading ? (
         <p>Loading....</p>
-      ) : !!issuesQuery.data && issuesQuery.isSuccess ? (
+      ) : isError ? (
+        <p>Error</p>
+      ) : !!data ? (
         <ul className="issues-list">
-          {issuesQuery.data.map((item) => (
+          {data?.map((item) => (
             <IssueItem
               key={item.id}
               title={item.title}
