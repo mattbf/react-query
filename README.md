@@ -13,7 +13,7 @@ _before_:
 The server would send data and the document.
 
 _after AJAX_:
-A webpage could request more data without reloading the page and could happen automatically.
+A webpage could request more data without reloading the page (and could do it automatically).
 
 ### Client state vs Server state
 
