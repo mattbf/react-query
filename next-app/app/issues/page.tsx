@@ -4,6 +4,8 @@ import LabelList from "@/components/LabelList";
 import { useState } from "react";
 import { StatusSelect } from "@/components/StatusSelect";
 
+const TEST_VARIABLE = process.env.NEXT_PUBLIC_TEST_VARIABLE;
+
 const Issues = () => {
   const [labels, setLabels] = useState<string[]>([]);
 
@@ -18,6 +20,8 @@ const Issues = () => {
       }
     });
   };
+
+  console.log({TEST_VARIABLE})
 
   return (
     <div>
