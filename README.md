@@ -163,3 +163,29 @@ const Navigation = () => {
   );
 };
 ```
+
+# Mutations
+
+**How is it different from useQuery?**
+It only fires when you call .mutate
+
+```js
+const [text, setText] = React.useState('')
+const todoQuery = useTodos()
+
+const addTodoMutation = useMutation({
+  mutationFn: (newTodo: string) => axios.post('/api/data', { text: newTodo }),
+  onSettled: () => queryClient.invalidateQueries({ queryKey: ['todos'] }),
+})
+```
+
+## optimizing rendering
+
+```js
+const query = useQuery(["data"], getData, {
+  refetchInterval: 1000,
+  notifyOnChangeProps: ["isLoading", "data"], //only re-render when these properties change
+  select: (data) => data.randomInteger // only re-render when the transformed data changes, not the orignal data
+});
+```
+
