@@ -189,3 +189,14 @@ const query = useQuery(["data"], getData, {
 });
 ```
 
+
+# My other, random notes
+
+Other learnings from real-world building and reading about optimizations (mostly on TKDodo's blog).
+
+1. It's important to [setup the query client](https://tanstack.com/query/latest/docs/framework/react/guides/advanced-ssr#initial-setup) properly in nextjs 
+2. When you have multi-faceted or complex custom hooks for your queries, use a query factory to generate the keys
+    You can then export reuse this factory when doing one-off invalidations or optimistic updates
+3. If type complexity isn't a worry and you care about usability / readability, use object keys instead of full array keys (look like: [{someKey: ...}])
+4. Configure `staleTime` appropriately. Tanstack Query defaults to 0, whereas other libraries like useSWR do not. 
+
